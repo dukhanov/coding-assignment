@@ -1,14 +1,11 @@
 import {useDispatch, useSelector} from 'react-redux'
-import starredSlice from '../data/starredSlice'
-import watchLaterSlice from '../data/watchLaterSlice'
 import placeholder from '../assets/not-found-500X750.jpeg'
+import { selectStarredMovies, starMovie, unstarMovie } from '../features/starred/starredSlice'
+import { addToWatchLater, removeFromWatchLater, selectWatchLaterMovies } from '../features/watch-later/watchLaterSlice'
 
 const Movie = ({movie, viewTrailer, closeCard}) => {
-  const state = useSelector(state => state)
-  const {starred, watchLater} = state
-  const {starMovie, unstarMovie} = starredSlice.actions
-  const {addToWatchLater, removeFromWatchLater} = watchLaterSlice.actions
-
+  const starred = useSelector(selectStarredMovies)
+  const watchLater = useSelector(selectWatchLaterMovies)
   const dispatch = useDispatch()
 
   const myClickHandler = e => {
@@ -26,7 +23,7 @@ const Movie = ({movie, viewTrailer, closeCard}) => {
           <div className="info_panel">
             <div className="overview">{movie.overview}</div>
             <div className="year">{movie.release_date?.substring(0, 4)}</div>
-            {!starred.starredMovies.map(movie => movie.id).includes(movie.id) ? (
+            {!starred.map(movie => movie.id).includes(movie.id) ? (
               <span
                 className="btn-star"
                 data-testid="starred-link"
@@ -49,7 +46,7 @@ const Movie = ({movie, viewTrailer, closeCard}) => {
                 <i className="bi bi-star-fill" data-testid="star-fill" />
               </span>
             )}
-            {!watchLater.watchLaterMovies.map(movie => movie.id).includes(movie.id) ? (
+            {!watchLater.map(movie => movie.id).includes(movie.id) ? (
               <button
                 type="button"
                 data-testid="watch-later"

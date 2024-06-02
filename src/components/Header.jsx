@@ -1,10 +1,10 @@
 import {Link, NavLink} from 'react-router-dom'
 import {useSelector} from 'react-redux'
-
+import { selectStarredMovies } from '../features/starred/starredSlice'
 import '../styles/header.scss'
 
 const Header = ({searchMovies}) => {
-  const {starredMovies} = useSelector(state => state.starred)
+  const starredMovies = useSelector(selectStarredMovies)
 
   return (
     <header>
