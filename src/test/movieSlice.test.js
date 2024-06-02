@@ -1,10 +1,10 @@
-import moviesSlice, {fetchMovies} from '../data/moviesSlice'
+import moviesReducer, {fetchMovies} from '../features/movies/moviesSlice'
 import {moviesMock} from './movies.mocks'
 
 describe('MovieSlice test', () => {
   it('should set loading true while action is pending', () => {
     const action = {type: fetchMovies.pending}
-    const initialState = moviesSlice.reducer(
+    const initialState = moviesReducer(
       {
         movies: [],
         fetchStatus: '',
@@ -19,7 +19,7 @@ describe('MovieSlice test', () => {
       type: fetchMovies.fulfilled,
       payload: moviesMock,
     }
-    const initialState = moviesSlice.reducer(
+    const initialState = moviesReducer(
       {
         movies: [],
         fetchStatus: '',
@@ -31,7 +31,7 @@ describe('MovieSlice test', () => {
 
   it('should set error when action is rejected', () => {
     const action = {type: fetchMovies.rejected}
-    const initialState = moviesSlice.reducer(
+    const initialState = moviesReducer(
       {
         movies: [],
         fetchStatus: '',

@@ -1,9 +1,7 @@
-import {useEffect, useState} from 'react'
-import {Routes, Route, createSearchParams, useSearchParams, useNavigate} from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux'
+import {useState} from 'react'
+import {Routes, Route} from 'react-router-dom'
 import 'reactjs-popup/dist/index.css'
-import {fetchMovies, selectMovies} from './features/movies/moviesSlice'
-import {ENDPOINT_DISCOVER, ENDPOINT, API_KEY} from './constants'
+import {ENDPOINT, API_KEY} from './constants'
 import Header from './components/Header'
 import Movies from './features/movies/Movies'
 import Starred from './features/starred/Starred'
@@ -12,36 +10,11 @@ import YouTubePlayer from './components/YoutubePlayer'
 import './styles/app.scss'
 
 const App = () => {
-  const movies = useSelector(selectMovies)
-  const dispatch = useDispatch()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const searchQuery = searchParams.get('search')
   const [videoKey, setVideoKey] = useState()
   const [isOpen, setOpen] = useState(false)
-  const navigate = useNavigate()
-
   const closeModal = () => setOpen(false)
 
   const closeCard = () => {}
-
-  const getSearchResults = query => {
-    if (query !== '') {
-      dispatch(fetchMovies(query))
-      setSearchParams(createSearchParams({search: query}))
-    } else {
-      dispatch(fetchMovies(ENDPOINT_DISCOVER))
-      setSearchParams()
-    }
-  }
-
-  const searchMovies = query => {
-    navigate('/')
-    getSearchResults(query)
-  }
-
-  const getMovies = () => {
-    dispatch(fetchMovies(searchQuery))
-  }
 
   const viewTrailer = movie => {
     getMovie(movie.id)
@@ -61,13 +34,9 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    getMovies()
-  }, [])
-
   return (
     <div className="App">
-      <Header searchMovies={searchMovies} searchParams={searchParams} setSearchParams={setSearchParams} />
+      <Header />
 
       <div className="container">
         {videoKey ? (
@@ -79,7 +48,7 @@ const App = () => {
         )}
 
         <Routes>
-          <Route path="/" element={<Movies movies={movies} viewTrailer={viewTrailer} closeCard={closeCard} />} />
+          <Route path="/" element={<Movies viewTrailer={viewTrailer} closeCard={closeCard} />} />
           <Route path="/starred" element={<Starred viewTrailer={viewTrailer} />} />
           <Route path="/watch-later" element={<WatchLater viewTrailer={viewTrailer} />} />
           <Route path="*" element={<h1 className="not-found">Page Not Found</h1>} />

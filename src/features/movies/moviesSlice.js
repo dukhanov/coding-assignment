@@ -1,10 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {ENDPOINT_DISCOVER, ENDPOINT_SEARCH} from '../../constants'
 
-export const fetchMovies = createAsyncThunk('fetch-movies', async searchQuery => {
+let abortController = null
+
+export const fetchMovies = createAsyncThunk('fetch-movies', async (searchQuery = null) => {
+  abortController?.abort()
+  abortController = new AbortController()
+
   const URL = searchQuery ? `${ENDPOINT_SEARCH}&query=${searchQuery}` : ENDPOINT_DISCOVER
-  console.log('search', searchQuery)
-  const response = await fetch(URL)
+  const response = await fetch(URL, abortController.signal)
   return response.json()
 })
 
@@ -33,5 +37,6 @@ const moviesSlice = createSlice({
 })
 
 export const selectMovies = state => state.movies.movies
+export const selectIsLoading = state => state.movies.fetchStatus === 'loading'
 
 export default moviesSlice.reducer
