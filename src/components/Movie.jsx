@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux'
 import placeholder from '../assets/not-found-500X750.jpeg'
-import { selectStarredMovies, starMovie, unstarMovie } from '../features/starred/starredSlice'
-import { addToWatchLater, removeFromWatchLater, selectWatchLaterMovies } from '../features/watch-later/watchLaterSlice'
+import {selectStarredMovies, starMovie, unstarMovie} from '../features/starred/starredSlice'
+import {addToWatchLater, removeFromWatchLater, selectWatchLaterMovies} from '../features/watch-later/watchLaterSlice'
 
 const Movie = ({movie, viewTrailer, closeCard}) => {
   const starred = useSelector(selectStarredMovies)
@@ -16,7 +16,7 @@ const Movie = ({movie, viewTrailer, closeCard}) => {
   }
 
   return (
-    <div className="wrapper col-3 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+    <div className="wrapper">
       <div className="card" onClick={e => e.currentTarget.classList.add('opened')}>
         <div className="card-body text-center">
           <div className="overlay" />

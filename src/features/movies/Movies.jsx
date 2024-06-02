@@ -8,7 +8,7 @@ const Movies = ({viewTrailer, closeCard}) => {
   const isLoading = useSelector(selectIsLoading)
 
   return (
-    <div data-testid="movies">
+    <div data-testid="movies" className="movies">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
